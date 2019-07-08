@@ -8,14 +8,21 @@ class Pair:
         self.key = key
         self.value = value
 
+    # def __repr__(self):
+    #     return f'{self.value}'
+
 
 # '''
 # Basic hash table
-# Fill this in.  All storage values should be initialized to None
+# Fill this in.  All capacity values should be initialized to None
 # '''
 class BasicHashTable:
     def __init__(self, capacity):
-        pass
+        self.capacity = capacity
+        self.storage = [None] * capacity
+
+    def __repr__(self):
+        return f'{self.storage}'
 
 
 # '''
@@ -23,16 +30,22 @@ class BasicHashTable:
 # Research and implement the djb2 hash function
 # '''
 def hash(string, max):
-    pass
-
-
-# '''
-# Fill this in.
+    hash = 5381
+    for char in string:
+        hash = (hash * 33) + ord(char)
+    return hash % max
 
 # If you are overwriting a value with a different key, print a warning.
 # '''
+
+
 def hash_table_insert(hash_table, key, value):
-    pass
+    new_element = Pair(key, value)
+    index = hash(key, hash_table.capacity)
+    if hash_table.storage[index]:
+        print("OVERWRITING A VALUE")
+    hash_table.storage[index] = new_element
+    return new_element
 
 
 # '''
@@ -41,16 +54,23 @@ def hash_table_insert(hash_table, key, value):
 # If you try to remove a value that isn't there, print a warning.
 # '''
 def hash_table_remove(hash_table, key):
-    pass
+    index = hash(key, hash_table.capacity)
+    if hash_table.storage[index]:
+        hash_table.storage[index] = None
+    else:
+        print("Element does not exist")
 
-
-# '''
-# Fill this in.
 
 # Should return None if the key is not found.
 # '''
+
 def hash_table_retrieve(hash_table, key):
-    pass
+    index = hash(key, hash_table.capacity)
+    value = hash_table.storage[index]
+    if value:
+        return value.value
+    else:
+        return None
 
 
 def Testing():
@@ -67,3 +87,9 @@ def Testing():
 
 
 Testing()
+
+# ht = BasicHashTable(10)
+# hash_table_insert(ht, "hello", "dylan")
+# hash_table_insert(ht, "yo", "berk")
+# hash_table_insert(ht, "sup", "tricia")
+# print(hash_table_retrieve(ht, "hello"))
