@@ -42,8 +42,10 @@ def hash(string, max):
 def hash_table_insert(hash_table, key, value):
     new_element = Pair(key, value)
     index = hash(key, hash_table.capacity)
+    stored_pair = hash_table.storage[index]
     if hash_table.storage[index]:
-        print("OVERWRITING A VALUE")
+        if new_element.key == stored_pair.key:
+            print("OVERWRITING A VALUE")
     hash_table.storage[index] = new_element
     return new_element
 
@@ -55,8 +57,8 @@ def hash_table_insert(hash_table, key, value):
 # '''
 def hash_table_remove(hash_table, key):
     index = hash(key, hash_table.capacity)
-    if hash_table.storage[index]:
-        hash_table.storage[index] = None
+    if hash_table.storage[index].key:
+        hash_table.storage[index].key = None
     else:
         print("Element does not exist")
 
@@ -68,9 +70,10 @@ def hash_table_retrieve(hash_table, key):
     index = hash(key, hash_table.capacity)
     value = hash_table.storage[index]
     if value:
-        return value.value
-    else:
-        return None
+        if value.key == key:
+            return value.value
+        else:
+            return None
 
 
 def Testing():
